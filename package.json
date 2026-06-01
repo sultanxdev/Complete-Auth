@@ -1,0 +1,41 @@
+{
+  "name": "complete-auth",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-ready authentication module built on Better Auth — email/password, OAuth, magic links, 2FA, RBAC, session management.",
+  "author": "Uttam",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "workers/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w apps/server\" \"npm run dev -w apps/web\" \"npm run dev -w workers/email-worker\"",
+    "dev:server": "npm run dev -w apps/server",
+    "dev:web": "npm run dev -w apps/web",
+    "dev:worker": "npm run dev -w workers/email-worker",
+    "build": "npm run build -w packages/db && npm run build -w apps/server && npm run build -w apps/web",
+    "lint": "eslint . --ext .js,.jsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "test": "npm run test -w apps/server --if-present",
+    "test:e2e": "npm run test:e2e -w apps/web --if-present",
+    "db:generate": "npm run db:generate -w packages/db",
+    "db:migrate": "npm run db:migrate -w packages/db",
+    "db:studio": "npm run db:studio -w packages/db"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "prettier": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
