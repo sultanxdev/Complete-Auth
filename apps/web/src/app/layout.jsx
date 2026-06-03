@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <div className="bg-orbs" aria-hidden="true" />
+        <div className="bg-orb-3" aria-hidden="true" />
         {children}
       </body>
     </html>

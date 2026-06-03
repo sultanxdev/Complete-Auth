@@ -3,13 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { authClient } from '../../lib/auth-client';
 import OAuthButtons from '../../components/OAuthButtons';
-
-export const metadata = {
-  title: 'Sign In',
-};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -60,9 +56,11 @@ export default function LoginPage() {
     }
   };
 
+  const isValid = form.email.length > 0 && form.password.length > 0;
+
   return (
     <main className="auth-layout">
-      <div className="glass-card auth-card" style={{ animation: 'fade-up 0.5s ease' }}>
+      <div className="glass-card glass-card-shimmer auth-card">
         {/* Logo */}
         <div className="auth-logo">
           <div className="auth-logo-icon">🔐</div>
@@ -70,7 +68,7 @@ export default function LoginPage() {
         </div>
 
         <h1 className="auth-heading">Welcome back</h1>
-        <p className="auth-subheading">Sign in to your account to continue</p>
+        <p className="auth-subheading">Sign in to continue to your account</p>
 
         {/* OAuth Buttons */}
         <OAuthButtons mode="signin" />
@@ -94,7 +92,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} noValidate>
           {/* Email */}
           <div className="form-group">
-            <label className="form-label" htmlFor="login-email">Email</label>
+            <label className="form-label" htmlFor="login-email">Email address</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" />
               <input
@@ -116,7 +114,17 @@ export default function LoginPage() {
           <div className="form-group">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <label className="form-label" htmlFor="login-password" style={{ margin: 0 }}>Password</label>
-              <Link href="/forgot-password" style={{ fontSize: 13, color: 'var(--color-accent-1)', textDecoration: 'none' }}>
+              <Link
+                href="/forgot-password"
+                style={{
+                  fontSize: 12,
+                  color: 'var(--color-accent-1)',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                  letterSpacing: '0.01em',
+                  transition: 'color 150ms',
+                }}
+              >
                 Forgot password?
               </Link>
             </div>
@@ -148,15 +156,31 @@ export default function LoginPage() {
 
           {/* Remember Me */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
-            <input
-              id="remember-me"
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              style={{ width: 16, height: 16, accentColor: 'var(--color-accent-1)', cursor: 'pointer' }}
-            />
-            <label htmlFor="remember-me" style={{ fontSize: 14, color: 'var(--color-text-secondary)', cursor: 'pointer' }}>
-              Remember me for 30 days
+            <div
+              style={{
+                position: 'relative',
+                width: 18,
+                height: 18,
+                flexShrink: 0,
+              }}
+            >
+              <input
+                id="remember-me"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                style={{
+                  width: 18,
+                  height: 18,
+                  accentColor: 'var(--color-accent-1)',
+                  cursor: 'pointer',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 4,
+                }}
+              />
+            </div>
+            <label htmlFor="remember-me" style={{ fontSize: 14, color: 'var(--color-text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
+              Stay signed in for 30 days
             </label>
           </div>
 
@@ -164,8 +188,9 @@ export default function LoginPage() {
           <button
             id="login-submit"
             type="submit"
-            className="btn btn-primary"
-            disabled={loading || !form.email || !form.password}
+            className="btn btn-primary btn-lg"
+            disabled={loading || !isValid}
+            style={{ gap: 10 }}
           >
             {loading ? (
               <>
@@ -173,29 +198,42 @@ export default function LoginPage() {
                 Signing in…
               </>
             ) : (
-              'Sign In'
+              <>
+                Sign In
+                <ArrowRight size={17} />
+              </>
             )}
           </button>
         </form>
 
-        {/* Magic Link link */}
-        <div className="auth-footer-link" style={{ marginTop: 16 }}>
-          <Link href="/magic-link" style={{ color: 'var(--color-text-muted)', textDecoration: 'none', fontSize: 13 }}>
-            Sign in without a password →
+        {/* Magic Link */}
+        <div style={{ marginTop: 16, textAlign: 'center' }}>
+          <Link
+            href="/magic-link"
+            style={{
+              fontSize: 13,
+              color: 'var(--color-text-muted)',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              transition: 'color 150ms',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-muted)')}
+          >
+            <Sparkles size={13} />
+            Sign in without a password
           </Link>
         </div>
 
+        <div className="divider" style={{ margin: '20px 0' }} />
+
         <div className="auth-footer-link">
-          Don&apos;t have an account? <Link href="/register">Create account</Link>
+          Don&apos;t have an account?{' '}
+          <Link href="/register">Create account</Link>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes fade-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </main>
   );
 }

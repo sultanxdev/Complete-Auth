@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, ArrowRight, Mail as MailIcon } from 'lucide-react';
 import { authClient } from '../../lib/auth-client';
 import OAuthButtons from '../../components/OAuthButtons';
 
@@ -74,18 +74,61 @@ export default function RegisterPage() {
   if (success) {
     return (
       <main className="auth-layout">
-        <div className="glass-card auth-card" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 56, marginBottom: 20 }}>📧</div>
+        <div className="glass-card auth-card" style={{ textAlign: 'center', padding: '52px 40px' }}>
+          {/* Animated email icon */}
+          <div style={{
+            width: 80,
+            height: 80,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(176,110,245,0.15))',
+            border: '1px solid rgba(102,126,234,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 24px',
+            animation: 'logo-pulse 3s ease-in-out infinite',
+          }}>
+            <MailIcon size={36} color="var(--color-accent-1)" />
+          </div>
+
           <h1 className="auth-heading">Check your inbox</h1>
           <p className="auth-subheading" style={{ marginBottom: 0 }}>
-            We sent a verification link to <strong style={{ color: 'var(--color-text-primary)' }}>{form.email}</strong>.
+            We sent a verification link to{' '}
+            <strong style={{
+              color: 'var(--color-text-primary)',
+              background: 'var(--gradient-primary)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              {form.email}
+            </strong>.
+          </p>
+          <p style={{ marginTop: 8, fontSize: 14, color: 'var(--color-text-muted)' }}>
             Click it to activate your account.
           </p>
-          <div style={{ marginTop: 32 }}>
+
+          <div style={{
+            marginTop: 32,
+            padding: '16px',
+            background: 'rgba(102,126,234,0.06)',
+            border: '1px solid rgba(102,126,234,0.15)',
+            borderRadius: 'var(--radius-lg)',
+          }}>
             <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>
-              Didn&apos;t receive it? Check your spam folder or{' '}
+              Didn&apos;t receive it? Check spam or{' '}
               <button
-                style={{ background: 'none', border: 'none', color: 'var(--color-accent-1)', cursor: 'pointer', fontSize: 13 }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--color-accent-1)',
+                  cursor: 'pointer',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  padding: 0,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: 3,
+                }}
                 onClick={() => setSuccess(false)}
               >
                 try again
@@ -99,14 +142,14 @@ export default function RegisterPage() {
 
   return (
     <main className="auth-layout">
-      <div className="glass-card auth-card">
+      <div className="glass-card glass-card-shimmer auth-card">
         <div className="auth-logo">
           <div className="auth-logo-icon">🔐</div>
           <span className="auth-logo-text">CompleteAuth</span>
         </div>
 
         <h1 className="auth-heading">Create an account</h1>
-        <p className="auth-subheading">Start your journey with CompleteAuth</p>
+        <p className="auth-subheading">Join thousands of users using CompleteAuth</p>
 
         <OAuthButtons mode="signup" />
 
@@ -146,7 +189,7 @@ export default function RegisterPage() {
 
           {/* Email */}
           <div className="form-group">
-            <label className="form-label" htmlFor="reg-email">Email</label>
+            <label className="form-label" htmlFor="reg-email">Email address</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" />
               <input
@@ -199,17 +242,18 @@ export default function RegisterPage() {
                   {[1, 2, 3, 4].map((bar) => (
                     <div
                       key={bar}
-                      className="password-strength-bar"
-                      style={{ background: bar <= strength ? strengthColors[strength] : undefined }}
+                      className={`password-strength-bar ${bar <= strength ? `active-${strength}` : ''}`}
                     />
                   ))}
                 </div>
-                <p className="form-hint">
-                  Strength:{' '}
-                  <span style={{ color: strengthColors[strength], fontWeight: 600 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 6 }}>
+                  <p className="form-hint" style={{ margin: 0 }}>
+                    Password strength
+                  </p>
+                  <p style={{ fontSize: 12, fontWeight: 600, color: strengthColors[strength] }}>
                     {strengthLabels[strength]}
-                  </span>
-                </p>
+                  </p>
+                </div>
               </>
             )}
           </div>
@@ -217,8 +261,9 @@ export default function RegisterPage() {
           <button
             id="register-submit"
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg"
             disabled={loading || !form.name || !form.email || !form.password}
+            style={{ gap: 10 }}
           >
             {loading ? (
               <>
@@ -226,20 +271,32 @@ export default function RegisterPage() {
                 Creating account…
               </>
             ) : (
-              'Create Account'
+              <>
+                Create Account
+                <ArrowRight size={17} />
+              </>
             )}
           </button>
         </form>
 
-        <p style={{ fontSize: 12, color: 'var(--color-text-muted)', textAlign: 'center', marginTop: 16 }}>
+        <p style={{
+          fontSize: 12,
+          color: 'var(--color-text-muted)',
+          textAlign: 'center',
+          marginTop: 16,
+          lineHeight: 1.6,
+        }}>
           By signing up, you agree to our{' '}
-          <a href="#" style={{ color: 'var(--color-accent-1)' }}>Terms of Service</a>{' '}
-          and{' '}
-          <a href="#" style={{ color: 'var(--color-accent-1)' }}>Privacy Policy</a>.
+          <a href="#" style={{ color: 'var(--color-accent-1)', textDecoration: 'none', fontWeight: 500 }}>Terms of Service</a>
+          {' '}and{' '}
+          <a href="#" style={{ color: 'var(--color-accent-1)', textDecoration: 'none', fontWeight: 500 }}>Privacy Policy</a>.
         </p>
 
+        <div className="divider" style={{ margin: '16px 0' }} />
+
         <div className="auth-footer-link">
-          Already have an account? <Link href="/login">Sign in</Link>
+          Already have an account?{' '}
+          <Link href="/login">Sign in</Link>
         </div>
       </div>
     </main>
