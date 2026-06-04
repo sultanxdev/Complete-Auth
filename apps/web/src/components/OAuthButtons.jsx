@@ -57,13 +57,22 @@ export default function OAuthButtons({ mode = 'signin' }) {
           onClick={() => handleOAuth(provider.id)}
           disabled={loading !== null}
           aria-label={`${actionLabel} ${provider.label}`}
+          title={`${actionLabel} ${provider.label}`}
         >
           {loading === provider.id ? (
-            <span className="btn-loading-spinner" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'var(--color-accent-1)' }} />
+            <span
+              className="btn-loading-spinner"
+              style={{
+                borderColor: 'rgba(255,255,255,0.2)',
+                borderTopColor: 'var(--color-accent-1)',
+              }}
+            />
           ) : (
-            provider.icon
+            <span style={{ display: 'flex', alignItems: 'center', flexShrink: 0, width: 18, height: 18 }}>
+              {provider.icon}
+            </span>
           )}
-          <span>{provider.label}</span>
+          <span style={{ fontWeight: 500 }}>{provider.label}</span>
         </button>
       ))}
     </div>

@@ -195,7 +195,7 @@ export default function SettingsPage() {
 
         {/* Profile Tab */}
         {tab === 'profile' && (
-          <div className="glass-card" style={{ padding: 32, maxWidth: 520 }}>
+          <div className="glass-card glass-card-shimmer" style={{ padding: 32, maxWidth: 520 }}>
             <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 24, color: 'var(--color-text-primary)' }}>Profile Information</h2>
             <form onSubmit={handleProfileSave}>
               {/* Avatar */}
@@ -241,7 +241,7 @@ export default function SettingsPage() {
 
         {/* Security Tab */}
         {tab === 'security' && (
-          <div className="glass-card" style={{ padding: 32, maxWidth: 520 }}>
+          <div className="glass-card glass-card-shimmer" style={{ padding: 32, maxWidth: 520 }}>
             <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 24, color: 'var(--color-text-primary)' }}>Change Password</h2>
             <form onSubmit={handlePasswordChange}>
               {['current', 'newPwd', 'confirm'].map((field) => (
@@ -279,7 +279,7 @@ export default function SettingsPage() {
 
         {/* 2FA Tab */}
         {tab === '2fa' && (
-          <div className="glass-card" style={{ padding: 32, maxWidth: 520 }}>
+          <div className="glass-card glass-card-shimmer" style={{ padding: 32, maxWidth: 520 }}>
             <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: 'var(--color-text-primary)' }}>Two-Factor Authentication</h2>
             <p style={{ color: 'var(--color-text-muted)', fontSize: 14, marginBottom: 24 }}>
               Add an extra layer of security by requiring a verification code when signing in.

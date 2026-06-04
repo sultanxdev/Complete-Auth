@@ -33,12 +33,19 @@ export default function MagicLinkPage() {
   if (sent) {
     return (
       <main className="auth-layout">
-        <div className="glass-card auth-card" style={{ textAlign: 'center' }}>
+        <div className="glass-card auth-card" style={{ textAlign: 'center', padding: '52px 40px' }}>
           <div style={{
-            width: 72, height: 72, borderRadius: '50%',
+            width: 80,
+            height: 80,
+            borderRadius: '50%',
             background: 'var(--gradient-primary)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 32, margin: '0 auto 24px'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 34,
+            margin: '0 auto 24px',
+            boxShadow: 'var(--shadow-glow)',
+            animation: 'logo-pulse 3s ease-in-out infinite',
           }}>✨</div>
 
           <h1 className="auth-heading">Magic link sent!</h1>
@@ -70,7 +77,7 @@ export default function MagicLinkPage() {
 
   return (
     <main className="auth-layout">
-      <div className="glass-card auth-card">
+      <div className="glass-card glass-card-shimmer auth-card">
         <div className="auth-logo">
           <div className="auth-logo-icon">✨</div>
           <span className="auth-logo-text">CompleteAuth</span>
@@ -125,13 +132,14 @@ export default function MagicLinkPage() {
           <button
             id="magic-link-submit"
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg"
             disabled={loading || !email}
+            style={{ gap: 10 }}
           >
             {loading ? (
               <><span className="btn-loading-spinner" /> Sending…</>
             ) : (
-              <><Zap size={16} /> Send Magic Link</>
+              <><Zap size={17} /> Send Magic Link</>
             )}
           </button>
         </form>
